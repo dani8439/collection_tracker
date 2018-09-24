@@ -1,8 +1,8 @@
 class CreatePatterns < ActiveRecord::Migration
   def change
     create_table :patterns do |t|
-      t.string :pattern_name
-      t.string :colorway
+      t.string :name
+      t.string :theme
     end
   end
 end
