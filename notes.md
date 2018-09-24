@@ -12,22 +12,21 @@ Patterns Table
 Has many :pieces
 Belongs to :user?
 Pattern Name
-Color Collection/ Colorway
+Color Collection/ Colorway/Theme
 Pattern ID
 
 
 Pieces Table
 Belongs to :pattern
 Belongs to :user?
-Pattern ID
 Piece Name
-Shape Class
+Shape
 Size
-Quantity
-Price
 
-Separate Cost Table??
-Currency – Euro, Dollar, Pound
+Separate PatternPiece Table
+Quantity
+pattern_id
+piece_id
 
 
 Collections:
