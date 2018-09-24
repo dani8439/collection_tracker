@@ -14,13 +14,12 @@
 ActiveRecord::Schema.define(version: 20180924175136) do
 
   create_table "patterns", force: :cascade do |t|
-    t.string "pattern_name"
-    t.string "colorway"
+    t.string "name"
+    t.string "theme"
   end
 
   create_table "pieces", force: :cascade do |t|
     t.string "name"
-    t.string "shape_class"
     t.string "size"
   end
 
