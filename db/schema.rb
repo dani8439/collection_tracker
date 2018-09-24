@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180924165746) do
+ActiveRecord::Schema.define(version: 20180924175136) do
 
   create_table "patterns", force: :cascade do |t|
     t.string "pattern_name"
@@ -19,10 +19,9 @@ ActiveRecord::Schema.define(version: 20180924165746) do
   end
 
   create_table "pieces", force: :cascade do |t|
-    t.string  "name"
-    t.string  "shape_class"
-    t.string  "size"
-    t.integer "quantity"
+    t.string "name"
+    t.string "shape_class"
+    t.string "size"
   end
 
   create_table "users", force: :cascade do |t|
