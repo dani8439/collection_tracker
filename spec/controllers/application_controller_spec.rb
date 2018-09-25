@@ -76,7 +76,7 @@ describe ApplicationController do
     end
 
     it 'loads the collections index after login' do
-      user = User.create(:username => "FalafelMonster", :email => "Challabackyoungin@aol.com", :password =>"harruu")
+      user = User.create(:username => "FalafelMonster", :email => "Challabackyoungin@aol.com", :password => "harruu")
       params = {
         :username => "FalafelMonster",
         :password => "harruu"
@@ -89,7 +89,7 @@ describe ApplicationController do
     end
 
     it 'does not let user view login page if already logged in' do
-      user = User.create(:username => "FalafelMonster", :email => "Challabackyoungin@aol.com", :password =>"harruu")
+      user = User.create(:username => "FalafelMonster", :email => "Challabackyoungin@aol.com", :password => "harruu")
       params = {
         :username => "FalafelMonster",
         :password => "harruu"
@@ -102,7 +102,7 @@ describe ApplicationController do
 
   describe "logout" do
     it "lets a user logout if they are already logged in" do
-      user = User.create(:username => "FalafelMonster", :email => "Challabackyoungin@aol.com", :password =>"harruu")
+      user = User.create(:username => "FalafelMonster", :email => "Challabackyoungin@aol.com", :password => "harruu")
       params = {
         :username => "FalafelMonster",
         :password => "harruu"
@@ -123,7 +123,7 @@ describe ApplicationController do
     end
 
     it 'does load /collections if user is logged in' do
-      user = User.create(:username => "FalafelMonster", :email => "Challabackyoungin@aol.com", :password =>"harruu")
+      user = User.create(:username => "FalafelMonster", :email => "Challabackyoungin@aol.com", :password => "harruu")
 
       visit '/login'
 
@@ -136,7 +136,7 @@ describe ApplicationController do
 
   describe 'user show page' do
     it 'shows all a single users collections' do
-      user = User.create(:username => "FalafelMonster", :email => "Challabackyoungin@aol.com", :password =>"harruu")
+      user = User.create(:username => "FalafelMonster", :email => "Challabackyoungin@aol.com", :password => "harruu")
       # Think I need to flip object relationships and controllers - A user has many pieces, piece belongs to a pattern, and a pattern has many pieces
       # don't think it should be "collections" (also because sounds awkward), but should start with pieces, and relationship moves down from there. Have
       # to figure out where join table is.
@@ -146,6 +146,72 @@ describe ApplicationController do
 
       expect(last_response.body).to include("1/4 Pint")
       expect(last_response.body).to include("Bowl")
+    end
+  end
+
+  describe 'index action' do
+    context 'logged in' do
+      it 'lets a user view the collections index if logged in' do
+        user1 = User.create(:username => "FalafelMonster", :email => "Challabackyoungin@aol.com", :password => "harruu")
+        piece1 = Piece.create(name: "Jug", size: "1/4 Pint", pattern_name: "Utility")
+
+        user2 = User.create(:username => "EBLover", :email => "sarahg@optonline.net", :password => "stripes111")
+        piece2 = Piece.create(name: "Teapot", size: "4 Cup", pattern_name: "Love & Kisses")
+
+        visit '/login'
+
+        fill_in(:username, :with => "FalafelMonster")
+        fill_in(:password, :with => "harruu")
+        click_button 'Submit'
+        visit "/collections"
+        expect(page.body).to include(piece1.pattern_name)
+        expect(page.body).to include(piece2.pattern_name)
+      end
+    end
+
+    context 'logged out' do
+      it 'does not let a user view the collections index if not logged in' do
+        get '/collections'
+        expect(last_response.location).to include("/login")
+      end
+    end
+  end
+
+  describe 'new action' do
+    context 'logged in' do
+      it 'lets user view new piece form if logged in' do
+        user = User.create(:username => "FalafelMonster", :email => "Challabackyoungin@aol.com", :password => "harruu")
+
+        visit '/login'
+
+        fill_in(:username, :with => "FalafelMonster")
+        fill_in(:password, :with => "harruu")
+        click_button 'Submit'
+        visit "/pieces/new"
+        expect(page.status_code).to eq(200)
+      end
+
+      it 'lets user create a piece if they are logged in' do
+        user = User.create(:username => "FalafelMonster", :email => "Challabackyoungin@aol.com", :password => "harruu")
+
+        visit '/login'
+
+        fill_in(:username, :with => "FalafelMoster")
+        fill_in(:password, :with => "harruu")
+        click_button 'Submit'
+
+        visit "/pieces/new"
+        fill_in(:name, :with => "Jug")
+        fill_in(:size, :with => "Quarter Pint")
+        fill_in(:pattern_name, :with => "Utility")
+        click_button 'Create Piece'
+
+        user = User.find_by(:username => "FalafelMonster")
+        piece = Piece.find_by(:name => "Jug")
+        expect(piece).to be_instance_of(Piece)
+        expect(piece.user_id).to eq(user.id)
+        expect(page.status_code).to eq(200)
+      end
     end
   end
 end

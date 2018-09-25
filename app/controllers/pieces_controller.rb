@@ -19,7 +19,7 @@ class PiecesController < ApplicationController
   end
 
   post '/pieces' do
-    @piece = Piece.create(name: params[:name], size: params[:size])
+    @piece = Piece.create(name: params[:name], size: params[:size], pattern_name: params[:pattern_name])
 
     redirect :"pieces/#{@piece.id}"
   end
