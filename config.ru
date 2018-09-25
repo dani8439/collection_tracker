@@ -8,4 +8,5 @@ use Rack::MethodOverride
 use PatternsController
 use PiecesController
 use UsersController
+user CollectionsController
 run ApplicationController
