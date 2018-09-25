@@ -4,9 +4,7 @@
 
 <% Collection.all.each do |collection| %>
 <ol>
-  <li><%= collection.quantity %></li>
-  <li><%= collection.piece_id%></li>
-  <li><%= collection.pattern_id %></li>
+  <li><%= collection.quantity %>: <%= collection.pattern_name %> <%= collection.piece_name%></li>
 </ol>
 <% end %>
 <br>
