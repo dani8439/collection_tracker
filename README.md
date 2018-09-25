@@ -1,2 +1,2 @@
 # Patterns and Pieces
-A Sinatra App to keep pottery collections organized.
+A Sinatra App to aid the avid collector in keeping their collections organized. 
