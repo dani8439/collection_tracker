@@ -213,6 +213,7 @@ describe ApplicationController do
         expect(page.status_code).to eq(200)
       end
 
+      #it 'does not let a user add collection from another user??'
       it 'does not let a user add piece from another user' do
         user = User.create(:username => "FalafelMonster", :email => "Challabackyoungin@aol.com", :password => "harruu")
         user2 = User.create(:username => "EBLover", :email => "sarahg@optonline.net", :password => "stripes111")
@@ -234,8 +235,9 @@ describe ApplicationController do
         user2 = User.find_by(:id => user2.id)
         piece = Piece.find_by(:name => "Jug", :size => "Quarter Pint", :pattern_name => "Utility")
         expect(piece).to be_instance_of(Piece)
-        expect(piece.user_id).to eq(user.id)
-        expect(piece.user_id).not_to_eq(user2.id)
+        # pieces shouldn't have a user_id? -- Don't think they should
+        # expect(piece.user_id).to eq(user.id)
+        # expect(piece.user_id).not_to_eq(user2.id)
       end
 
       it 'does not let a user create a blank piece' do
@@ -272,7 +274,7 @@ describe ApplicationController do
       it 'displays a single piece' do
 
         user = User.create(:username => "FalafelMonster", :email => "Challabackyoungin@aol.com", :password => "harruu")
-        piece = Piece.create(:name => "Egg Cup", :size => "N/A", :pattern_name => "Wallflower", :user_id => user.id)
+        piece = Piece.create(:name => "Egg Cup", :size => "N/A", :pattern_name => "Wallflower")
 
         visit '/login'
 
@@ -293,10 +295,86 @@ describe ApplicationController do
     context 'logged out' do
       it 'goes not let a user view a piece' do
         user = User.create(:username => "FalafelMonster", :email => "Challabackyoungin@aol.com", :password => "harruu")
-        piece = Piece.create(:name => "Egg Cup", :size => "N/A", :pattern_name => "Wallflower", :user_id => user.id)
+        piece = Piece.create(:name => "Egg Cup", :size => "N/A", :pattern_name => "Wallflower")
         get "/pieces/#{piece.id}"
         expect(last_response.location).to include("/login")
       end
+    end
+  end
+
+  describe 'edit action' do
+    context "logged in" do
+      it 'lets a user view piece edit form if they are logged in' do
+        user = User.create(:username => "FalafelMonster", :email => "Challabackyoungin@aol.com", :password => "harruu")
+        piece = Piece.create(:name => "Egg Cup", :size => "N/A", :pattern_name => "Wallflower")
+        visit '/login'
+
+        fill_in(:username, :with => "FalafelMonster")
+        fill_in(:password, :with => "harruu")
+        click_button 'Submit'
+        visit '/pieces/1/edit'
+        expect(page.status_code).to eq(200)
+        expect(page.body).to include(piece.name)
+        expect(page.body).to include(piece.size)
+        expect(page.body).to include(piece.pattern_name)
+      end
+
+      # it 'does not let a user edit a collection they did not create' do
+      it 'does not let a user edit a piece they did not create' do
+        user1 = User.create(:username => "FalafelMonster", :email => "Challabackyoungin@aol.com", :password => "harruu")
+        # collection = Collection.create() -- I give up for now.
+        piece = Piece.create(:name => "Egg Cup", :size => "N/A", :pattern_name => "Wallflower")
+
+        user2 = User.create(:username => "EBLover", :email => "sarahg@optonline.net", :password => "stripes111")
+        piece2 = Piece.create(:name => "Jug", :size => "Quarter Pint", :pattern_name => "Utility")
+        # collection2 = Collection.create()
+
+        visit '/login'
+
+        fill_in(:username, :with => "FalafelMonster")
+        fill_in(:password, :with => "harruu")
+        click_button 'Submit'
+        visit "/pieces/#{piece1.id}/edit"
+        expect(page.current_path).to include('/pieces')
+      end
+
+      # it 'lets a user edit their own collection if they are logged in' do
+      it 'lets a user edit their own piece if they are logged in' do
+        user1 = User.create(:username => "FalafelMonster", :email => "Challabackyoungin@aol.com", :password => "harruu")
+        piece = Piece.create(:name => "Egg Cup", :size => "N/A", :pattern_name => "Wallflower")
+        visit '/login'
+
+        fill_in(:username, :with => "FalafelMonster")
+        fill_in(:password, :with => "harruu")
+        click_button 'Submit'
+        visit "/pieces/1/edit"
+
+        fill_in(:name, :with => "Coffee Pot")
+
+        click_button 'Update Piece'
+        expect(Piece.find_by(:name => "Coffee Pot")).to be_instance_of(Piece)
+        expect(Piece.find_by(:name => "Egg Cup")).to eq(nil)
+        expect(page.status_code).to eq(200)
+      end
+
+      it 'does not let a user edit a text with blank content' do
+        user = User.create(:username => "FalafelMonster", :email => "Challabackyoungin@aol.com", :password => "harruu")
+        piece = Piece.create(:name => "Egg Cup", :size => "N/A", :pattern_name => "Wallflower")
+        visit '/login'
+
+        fill_in(:username, :with => "FalafelMonster")
+        fill_in(:password, :with => "harruu")
+        click_button 'Submit'
+        visit "/pieces/1/edit"
+
+        fill_in(:name, :with => "")
+        click_button 'Update Piece'
+        expect(Piece.find_by(:name => "Egg Cup")).to be(nil)
+        expect(page.current_path).to eq("/pieces/1/edit")
+      end
+    end
+
+    context "logged out" do
     end
   end
 end
