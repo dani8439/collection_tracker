@@ -20,8 +20,6 @@ class PatternsController < ApplicationController
 
   post '/patterns' do
     @pattern = Pattern.create(name: params[:name], theme: params[:theme])
-    @pattern.piece = Piece.find_or_create_by(name: params[:piece_name])
-    @pattern.save
 
     redirect :"/patterns/#{@pattern.id}"
 

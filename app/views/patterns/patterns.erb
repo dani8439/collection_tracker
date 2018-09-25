@@ -1,1 +1,7 @@
+<h1><%=@user.username %> Here Are Your Patterns:</h1>
 
+<% Pattern.all.each do |pattern| %>
+  <ul>
+    <li>Name: <%= pattern.name %> Theme: <%= pattern.theme %></li>
+  </ul>
+<% end %>

@@ -1,13 +1,7 @@
 <h1>Create a new Pattern</h1>
 
 <form action="/patterns" method="POST">
-  <label for="pattern_name">Pattern Name: <input type="text" name="pattern_name" id="Pattern Name"></label>
-  <label for="pattern_theme">Pattern Theme: <input type="text" name="pattern_theme" id="Pattern Theme"></label>
-  <label>Select from these shapes:</label>
-  <br><br>
-    <% Piece.all.each do |piece| %>
-      <input type="checkbox" name="pieces[]" value="<%= piece.id %" id="<%= piece.name %>"><%= piece.name %></input>
-    <% end %>
-  <br></br>
-  <input type="submit" Value="Create Pattern">
+  <label for="pattern_name">Name: <input type="text" name="name" id="pattern_name"></label>
+  <label for="pattern_theme">Theme: <input type="text" name="theme" id="pattern_theme"></label>
+  <input type="submit" value="Create Pattern">
 </form>
