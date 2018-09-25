@@ -1,9 +1,29 @@
 class CollectionsController < ApplicationController
 
   get '/collections' do
-    @collection = Collections.all
+    @collection = Collection.all
     @user = User.find_by(params[:user_id])
     if logged_in?
-      erb :'/collections'
+      erb :'/collections/collections'
+    else
+      redirect :'/login'
+    end
+  end
+
+  get '/collections/new' do
+    if logged_in?
+      erb :'/collections/create_collection'
+    else
+      redirect :'/login'
+    end
+  end
+
+  get '/collections/:id' do
+    if logged_in?
+      @collection = Collection.find_by_id(params[:id])
+      erb :'/collections/show_collection'
+    else
+      redirect :'/login'
+    end
   end
 end

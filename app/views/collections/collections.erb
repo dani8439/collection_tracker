@@ -1,0 +1,16 @@
+<h1>Welcome <%= current_user.username%></h1>
+
+<h2>Here is your collection</h2>
+
+<% Collection.all.each do |collection| %>
+<ol>
+  <li><%= collection.quantity %></li>
+  <li><%= collection.piece_id%></li>
+  <li><%= collection.pattern_id %></li>
+</ol>
+<% end %>
+
+<br></br>
+<a href="/">Add a new piece </a><br>
+<a href="/">Add a new pattern </a><br>
+<a href="/logout">Log Out </a><br>
