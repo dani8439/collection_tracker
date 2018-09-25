@@ -207,10 +207,95 @@ describe ApplicationController do
         click_button 'Create Piece'
 
         user = User.find_by(:username => "FalafelMonster")
-        piece = Piece.find_by(:name => "Jug")
+        piece = Piece.find_by(:name => "Jug", :size => "Quarter Pint", :pattern_name => "Utility")
         expect(piece).to be_instance_of(Piece)
         expect(piece.user_id).to eq(user.id)
         expect(page.status_code).to eq(200)
+      end
+
+      it 'does not let a user add piece from another user' do
+        user = User.create(:username => "FalafelMonster", :email => "Challabackyoungin@aol.com", :password => "harruu")
+        user2 = User.create(:username => "EBLover", :email => "sarahg@optonline.net", :password => "stripes111")
+
+        visit '/login'
+
+        fill_in(:username, :with => "FalafelMonster")
+        fill_in(:password, :with => "harruu")
+        click_button 'Submit'
+
+        visit '/pieces/new'
+
+        fill_in(:name, :with => "Jug")
+        fill_in(:size, :with => "Quarter Pint")
+        fill_in(:pattern_name, :with => "Utility")
+        click_button 'Create Piece'
+
+        user = User.find_by(:id => user.id)
+        user2 = User.find_by(:id => user2.id)
+        piece = Piece.find_by(:name => "Jug", :size => "Quarter Pint", :pattern_name => "Utility")
+        expect(piece).to be_instance_of(Piece)
+        expect(piece.user_id).to eq(user.id)
+        expect(piece.user_id).not_to_eq(user2.id)
+      end
+
+      it 'does not let a user create a blank piece' do
+        user = User.create(:username => "FalafelMonster", :email => "Challabackyoungin@aol.com", :password => "harruu")
+
+        visit '/login'
+
+        fill_in(:username, :with => "FalafelMonster")
+        fill_in(:password, :with => "harruu")
+        click_button 'Submit'
+
+        visit '/pieces/new'
+
+        fill_in(:name, :with => "")
+        fill_in(:size, :with => "Quarter Pint")
+        fill_in(:pattern_name, :with => "Utility")
+        click_button 'Create Piece'
+
+        expect(Piece.find_by(:name => "")).to eq(nil)
+        expect(page.current_path).to eq("/pieces/new")
+      end
+    end
+
+    context 'logged out' do
+      it 'does not let user view new piece from if not logged in' do
+        get '/pieces/new'
+        expect(last_response.location).to include("/login")
+      end
+    end
+  end
+
+  describe 'show action' do
+    context 'logged in' do
+      it 'displays a single piece' do
+
+        user = User.create(:username => "FalafelMonster", :email => "Challabackyoungin@aol.com", :password => "harruu")
+        piece = Piece.create(:name => "Egg Cup", :size => "N/A", :pattern_name => "Wallflower", :user_id => user.id)
+
+        visit '/login'
+
+        fill_in(:username, :with => "FalafelMonster")
+        fill_in(:password, :with => "harruu")
+        click_button 'Submit'
+
+        visit "/pieces/#{piece.id}"
+        expect(page.status_code).to eq(200)
+        expect(page.body).to include("Delete Piece")
+        expect(page.body).to include(piece.name)
+        expect(page.body).to include(piece.pattern_name)
+        expect(page.body).to include(piece.size)
+        expect(page.body).to include("Edit Piece")
+      end
+    end
+
+    context 'logged out' do
+      it 'goes not let a user view a piece' do
+        user = User.create(:username => "FalafelMonster", :email => "Challabackyoungin@aol.com", :password => "harruu")
+        piece = Piece.create(:name => "Egg Cup", :size => "N/A", :pattern_name => "Wallflower", :user_id => user.id)
+        get "/pieces/#{piece.id}"
+        expect(last_response.location).to include("/login")
       end
     end
   end
