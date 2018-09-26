@@ -14,20 +14,47 @@ class PiecesController < ApplicationController
   end
 
   get '/pieces/:id' do
-    @piece = Piece.find_by_id(params[:id])
-    erb :'pieces/show_piece'
+    if logged_in?
+      @piece = Piece.find_by_id(params[:id])
+      erb :'pieces/show_pieces'
+    else
+      redirect :'/login'
+    end
+  end
+
+
+  get '/pieces/:id/edit' do
+    if logged_in?
+      @piece = Piece.find_by_id(params[:id])
+      erb :'/pieces/edit'
+    else
+      redirect :'/login'
+    end
   end
 
   post '/pieces' do
-    @piece = Piece.create(name: params[:name], size: params[:size], pattern_name: params[:pattern_name])
+    @piece = Piece.create(name: params[:name], size: params[:size], quantity: params[:quantity])
+    if !params[:pattern][:name].empty?
+      @piece.patterns << Pattern.create(name: params[:name], theme: params[:theme])
+    end
+    @piece.save
 
     redirect :"pieces/#{@piece.id}"
   end
 
-  post '/pieces/:id/edit' do
-  end
 
   patch '/pieces/:id' do
+    @piece = Piece.find_by_id(params[:id])
+    @piece.update(params[:piece])
+    if !params[:pattern][:name].empty?
+      @piece.patterns = Pattern.create(name: params[:name], theme: params[:theme])
+    end
+    @piece.save
+
+    redirect :"pieces/#{@piece.id}"
+  end
+
+  delete '/pieces/:id/delete' do
   end
 
 end
