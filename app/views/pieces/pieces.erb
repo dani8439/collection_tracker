@@ -1,0 +1,7 @@
+<h1><%=@user.username %> Here Are Your Pieces:</h1>
+
+<% Piece.all.each do |piece| %>
+  <ul>
+    <li>Name: <%= piece.name %> Size: <%= piece.size %></li>
+  </ul>
+<% end %>
