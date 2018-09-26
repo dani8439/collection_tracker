@@ -4,7 +4,7 @@ describe "Pattern" do
   before do
     @pattern = Pattern.create(:name => "Love & Kisses", :theme => "Pinks")
 
-    small_jug = Piece.create(:name => "Jug", :size => "1.5 Pint", :pattern => @pattern)
+    small_jug = Piece.create(:name => "Jug", :size => "1.5 Pint", :quantity => "1", :pattern => @pattern)
   end
 
   it "can be initialized" do

@@ -15,10 +15,7 @@ ActiveRecord::Schema.define(version: 20180924200702) do
 
   create_table "collections", force: :cascade do |t|
     t.integer "pattern_id"
-    t.string  "pattern_name"
     t.integer "piece_id"
-    t.string  "piece_name"
-    t.integer "quantity"
     t.integer "user_id"
   end
 
@@ -30,7 +27,7 @@ ActiveRecord::Schema.define(version: 20180924200702) do
   create_table "pieces", force: :cascade do |t|
     t.string "name"
     t.string "size"
-    t.string "pattern_name"
+    t.string "quantity"
   end
 
   create_table "users", force: :cascade do |t|
