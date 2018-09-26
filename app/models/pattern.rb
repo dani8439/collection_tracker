@@ -3,5 +3,6 @@ class Pattern < ActiveRecord::Base
   # has_many :collections
   # has_many :pieces, through: :collections
   # belongs_to :user
-  belongs_to :collection
+  has_many :pieces
+  has_many :collections, through: :pieces
 end
