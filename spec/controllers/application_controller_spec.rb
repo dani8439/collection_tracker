@@ -322,7 +322,7 @@ describe ApplicationController do
       # it 'does not let a user edit a collection they did not create' do
       it 'does not let a user edit a piece they did not create' do
         user1 = User.create(:username => "FalafelMonster", :email => "Challabackyoungin@aol.com", :password => "harruu")
-        # collection = Collection.create() -- I give up for now.
+        # collection = Collection.create() -- I give up for now. -- should their be a user.id on piece??
         piece = Piece.create(:name => "Egg Cup", :size => "N/A", :pattern_name => "Wallflower")
 
         user2 = User.create(:username => "EBLover", :email => "sarahg@optonline.net", :password => "stripes111")
@@ -375,6 +375,55 @@ describe ApplicationController do
     end
 
     context "logged out" do
+      it 'does not load -- instead redirects to login' do
+        get '/pieces/1/edir'
+        expect(last_response.location).to include("/login")
+      end
+    end
+  end
+
+  describe 'delete action' do
+    context "logged in" do
+      it 'lets a user delete their own piece if they are logged in' do
+        user = User.create(:username => "FalafelMonster", :email => "Challabackyoungin@aol.com", :password => "harruu")
+        piece = Piece.create(:name => "Egg Cup", :size => "N/A", :pattern_name => "Wallflower")
+        visit '/login'
+
+        fill_in(:username, :with => "FalafelMonster")
+        fill_in(:password, :with => "harruu")
+        click_button 'Submit'
+        visit "/pieces/1"
+        click_button "Delete Piece"
+        expect(page.status_code).to eq(200)
+        expect(Piece.find_by(:name => "Egg Cup")).to eq(nil)
+      end
+
+      it 'does not let a user delete a piece they did not create' do
+        user1 = User.create(:username => "FalafelMonster", :email => "Challabackyoungin@aol.com", :password => "harruu")
+        piece1 = Piece.create(:name => "Egg Cup", :size => "N/A", :pattern_name => "Wallflower", :user_id => user1.id)
+
+        user2 = User.create(:username => "EBLover", :email => "sarahg@optonline.net", :password => "stripes111")
+        piece2 = Piece.create(:name => "Jug", :size => "Quarter Pint", :pattern_name => "Utility", :user_id => user2.id)
+
+        visit '/login'
+
+        fill_in(:username, :with => "FalafelMonster")
+        fill_in(:password, :with => "harruu")
+        click_button 'Submit'
+        visit "/pieces/#{piece2.id}"
+        click_button "Delete Piece"
+        expect(page.status_code).to eq(200)
+        expect(Piece.find_by(:name => "Egg Cup")).to be_instance_of(Piece)
+        expect(page.current_path).to include('/pieces')
+      end
+    end
+
+    context "logged out" do
+      it 'does not load let user delete a piece if not logged in' do
+        piece = Piece.create(:name => "Egg Cup", :size => "N/A", :pattern_name => "Wallflower", :user_id => user1.id)
+        visit '/piece/1'
+        expect(page.current_path).to eq("/login")
+      end
     end
   end
 end
