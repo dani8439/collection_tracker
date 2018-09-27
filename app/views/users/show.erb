@@ -1,10 +1,11 @@
-<h1>Welcome <%= @user.username%></h1>
+
+<h1>Welcome <%= @user.username %></h1>
 
 <h2>Here is your collection</h2>
 
-<% Collection.all.each do |collection| %>
+<% @collection.patterns.each do |pattern| %>
 <ol>
-  <li></li>
+  <p><a href="/patterns/<%= pattern.id %>"><%= pattern.name %></a></p>
 </ol>
 <% end %>
 <br>

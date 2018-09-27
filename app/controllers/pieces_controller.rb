@@ -45,7 +45,6 @@ class PiecesController < ApplicationController
       @piece = Piece.create(name: params[:name], size: params[:size], quantity: params[:quantity])
       if !params[:pattern][:name].empty?
         @piece.patterns << Pattern.create(name: params[:name], theme: params[:theme])
-        @piece.user_id == current_user.id
       end
       @piece.save
       redirect :"pieces/#{@piece.id}"
