@@ -39,13 +39,16 @@ class PiecesController < ApplicationController
   end
 
   post '/pieces' do
-    @piece = Piece.create(name: params[:name], size: params[:size], quantity: params[:quantity])
-    if !params[:pattern][:name].empty?
-      @piece.patterns << Pattern.create(name: params[:name], theme: params[:theme])
+    if params[:name] == "" || params[:size] == "" || params[:quantity] == ""
+      redirect :'/pieces/new'
+    else
+      @piece = Piece.create(name: params[:name], size: params[:size], quantity: params[:quantity])
+      if !params[:pattern][:name].empty?
+        @piece.patterns << Pattern.create(name: params[:name], theme: params[:theme])
+      end
+      @piece.save
+      redirect :"pieces/#{@piece.id}"
     end
-    @piece.save
-
-    redirect :"pieces/#{@piece.id}"
   end
 
 

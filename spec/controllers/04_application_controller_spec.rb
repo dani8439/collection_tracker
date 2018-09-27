@@ -137,10 +137,9 @@ describe ApplicationController do
   describe 'user show page' do
     it 'shows all a single users pieces' do
       user = User.create(:username => "FalafelMonster", :email => "Challabackyoungin@aol.com", :password => "harruu")
-      piece1 = Piece.create(name: "Jug", size: "1/4 Pint")
-      piece2 = Piece.create(name: "Bowl", size: "French")
-      # piece1 = Piece.create(name: "Jug", size: "1/4 Pint", pattern_name: "Utility")
-      # piece2 = Piece.create(name: "Bowl", size: "French", pattern_name: "Utility")
+      piece1 = Piece.create(name: "Jug", size: "1/4 Pint", quantity: "1")
+      piece2 = Piece.create(name: "Bowl", size: "French", quantity: "1")
+
       get "/users/#{user.id}"
 
       expect(last_response.body).to include("1/4 Pint")
@@ -152,10 +151,10 @@ describe ApplicationController do
     context 'logged in' do
       it 'lets a user view the pieces index if logged in' do
         user1 = User.create(:username => "FalafelMonster", :email => "Challabackyoungin@aol.com", :password => "harruu")
-        piece1 = Piece.create(name: "Jug", size: "1/4 Pint")
+        piece1 = Piece.create(name: "Jug", size: "1/4 Pint", quantity: "1")
 
         user2 = User.create(:username => "EBLover", :email => "sarahg@optonline.net", :password => "stripes111")
-        piece2 = Piece.create(name: "Teapot", size: "4 Cup")
+        piece2 = Piece.create(name: "Teapot", size: "4 Cup", quantity: "1")
 
         visit '/login'
 
@@ -192,19 +191,20 @@ describe ApplicationController do
 
       it 'lets user create a piece if they are logged in' do
         user = User.create(:username => "FalafelMonster", :email => "Challabackyoungin@aol.com", :password => "harruu")
-      
+
         visit '/login'
-      
+
         fill_in(:username, :with => "FalafelMoster")
         fill_in(:password, :with => "harruu")
         click_button 'Submit'
-      
+
         visit "/pieces/new"
+
         fill_in(:name, :with => "Jug")
         fill_in(:size, :with => "Quarter Pint")
-        # fill_in(:pattern_name, :with => "Utility")
+        fill_in(:quantity, :with => "1")
         click_button 'Create Piece'
-      
+
         user = User.find_by(:username => "FalafelMonster")
         piece = Piece.find_by(:name => "Jug", :size => "Quarter Pint")
         expect(piece).to be_instance_of(Piece)
@@ -226,12 +226,13 @@ describe ApplicationController do
 
         fill_in(:name, :with => "Jug")
         fill_in(:size, :with => "Quarter Pint")
-        # fill_in(:pattern_name, :with => "Utility")
+        fill_in(:quantity, :with => "1")
+
         click_button 'Create Piece'
 
         user = User.find_by(:id => user.id)
         user2 = User.find_by(:id => user2.id)
-        piece = Piece.find_by(:name => "Jug", :size => "Quarter Pint")
+        piece = Piece.find_by(:name => "Jug", :size => "Quarter Pint", :quantity => "1")
         # piece = Piece.find_by(:name => "Jug", :size => "Quarter Pint", :pattern_name => "Utility")
         expect(piece).to be_instance_of(Piece)
         # pieces shouldn't have a user_id? -- Don't think they should
@@ -239,7 +240,7 @@ describe ApplicationController do
         # expect(piece.user_id).not_to_eq(user2.id)
       end
 
-      it 'does not let a user create a blank piece' do
+      it 'does not let a user create a blank piece name' do
         user = User.create(:username => "FalafelMonster", :email => "Challabackyoungin@aol.com", :password => "harruu")
 
         visit '/login'
@@ -252,10 +253,50 @@ describe ApplicationController do
 
         fill_in(:name, :with => "")
         fill_in(:size, :with => "Quarter Pint")
-        # fill_in(:pattern_name, :with => "Utility")
+        fill_in(:quantity, :with => "1")
         click_button 'Create Piece'
 
         expect(Piece.find_by(:name => "")).to eq(nil)
+        expect(page.current_path).to eq("/pieces/new")
+      end
+
+      it 'does not let a user create a blank piece size' do
+        user = User.create(:username => "FalafelMonster", :email => "Challabackyoungin@aol.com", :password => "harruu")
+
+        visit '/login'
+
+        fill_in(:username, :with => "FalafelMonster")
+        fill_in(:password, :with => "harruu")
+        click_button 'Submit'
+
+        visit '/pieces/new'
+
+        fill_in(:name, :with => "Jug")
+        fill_in(:size, :with => "")
+        fill_in(:quantity, :with => "1")
+        click_button 'Create Piece'
+
+        expect(Piece.find_by(:size => "")).to eq(nil)
+        expect(page.current_path).to eq("/pieces/new")
+      end
+
+      it 'does not let a user create a blank piece quantity' do
+        user = User.create(:username => "FalafelMonster", :email => "Challabackyoungin@aol.com", :password => "harruu")
+
+        visit '/login'
+
+        fill_in(:username, :with => "FalafelMonster")
+        fill_in(:password, :with => "harruu")
+        click_button 'Submit'
+
+        visit '/pieces/new'
+
+        fill_in(:name, :with => "Jug")
+        fill_in(:size, :with => "Quarter Pint")
+        fill_in(:quantity, :with => "")
+        click_button 'Create Piece'
+
+        expect(Piece.find_by(:quantity => "")).to eq(nil)
         expect(page.current_path).to eq("/pieces/new")
       end
     end
@@ -273,7 +314,7 @@ describe ApplicationController do
       it 'displays a single piece' do
 
         user = User.create(:username => "FalafelMonster", :email => "Challabackyoungin@aol.com", :password => "harruu")
-        piece = Piece.create(:name => "Egg Cup", :size => "N/A")
+        piece = Piece.create(:name => "Egg Cup", :size => "N/A", :quantity => "2")
         # piece = Piece.create(:name => "Egg Cup", :size => "N/A", :pattern_name => "Wallflower")
 
         visit '/login'
@@ -286,8 +327,8 @@ describe ApplicationController do
         expect(page.status_code).to eq(200)
         expect(page.body).to include("Delete Piece")
         expect(page.body).to include(piece.name)
-        # expect(page.body).to include(piece.pattern_name)
         expect(page.body).to include(piece.size)
+        expect(page.body).to include(piece.quantity)
         expect(page.body).to include("Edit Piece")
       end
     end
@@ -296,7 +337,7 @@ describe ApplicationController do
       it 'does not let a user view a piece' do
         user = User.create(:username => "FalafelMonster", :email => "Challabackyoungin@aol.com", :password => "harruu")
         # piece = Piece.create(:name => "Egg Cup", :size => "N/A", :pattern_name => "Wallflower")
-        piece = Piece.create(:name => "Egg Cup", :size => "N/A")
+        piece = Piece.create(:name => "Egg Cup", :size => "N/A", :quantity => "4")
         get "/pieces/#{piece.id}"
         expect(last_response.location).to include("/login")
       end
@@ -307,7 +348,7 @@ describe ApplicationController do
     context "logged in" do
       it 'lets a user view piece edit form if they are logged in' do
         user = User.create(:username => "FalafelMonster", :email => "Challabackyoungin@aol.com", :password => "harruu")
-        piece = Piece.create(:name => "Egg Cup", :size => "N/A")
+        piece = Piece.create(:name => "Egg Cup", :size => "N/A", :quantity => "4")
         # piece = Piece.create(:name => "Egg Cup", :size => "N/A", :pattern_name => "Wallflower")
         visit '/login'
 
@@ -325,11 +366,11 @@ describe ApplicationController do
       it 'does not let a user edit a piece they did not create' do
         user1 = User.create(:username => "FalafelMonster", :email => "Challabackyoungin@aol.com", :password => "harruu")
         # collection = Collection.create() -- I give up for now. -- should their be a user.id on piece??
-        piece = Piece.create(:name => "Egg Cup", :size => "N/A")
+        piece = Piece.create(:name => "Egg Cup", :size => "N/A", :quantity => "4")
         # piece = Piece.create(:name => "Egg Cup", :size => "N/A", :pattern_name => "Wallflower")
 
         user2 = User.create(:username => "EBLover", :email => "sarahg@optonline.net", :password => "stripes111")
-        piece2 = Piece.create(:name => "Jug", :size => "Quarter Pint")
+        piece2 = Piece.create(:name => "Jug", :size => "Quarter Pint", :quantity => "1")
         # piece2 = Piece.create(:name => "Jug", :size => "Quarter Pint", :pattern_name => "Utility")
         # collection2 = Collection.create()
 
@@ -345,7 +386,7 @@ describe ApplicationController do
       # it 'lets a user edit their own collection if they are logged in' do
       it 'lets a user edit their own piece if they are logged in' do
         user1 = User.create(:username => "FalafelMonster", :email => "Challabackyoungin@aol.com", :password => "harruu")
-        piece = Piece.create(:name => "Egg Cup", :size => "N/A")
+        piece = Piece.create(:name => "Egg Cup", :size => "N/A", :quantity => "4")
         # piece = Piece.create(:name => "Egg Cup", :size => "N/A", :pattern_name => "Wallflower")
         visit '/login'
 
@@ -364,7 +405,7 @@ describe ApplicationController do
 
       it 'does not let a user edit a text with blank content' do
         user = User.create(:username => "FalafelMonster", :email => "Challabackyoungin@aol.com", :password => "harruu")
-        piece = Piece.create(:name => "Egg Cup", :size => "N/A")
+        piece = Piece.create(:name => "Egg Cup", :size => "N/A", :quantity => "4")
         # piece = Piece.create(:name => "Egg Cup", :size => "N/A", :pattern_name => "Wallflower")
         visit '/login'
 
@@ -392,7 +433,7 @@ describe ApplicationController do
     context "logged in" do
       it 'lets a user delete their own piece if they are logged in' do
         user = User.create(:username => "FalafelMonster", :email => "Challabackyoungin@aol.com", :password => "harruu")
-        piece = Piece.create(:name => "Egg Cup", :size => "N/A")
+        piece = Piece.create(:name => "Egg Cup", :size => "N/A", :quantity => "4")
         # piece = Piece.create(:name => "Egg Cup", :size => "N/A", :pattern_name => "Wallflower")
         visit '/login'
 
@@ -407,11 +448,11 @@ describe ApplicationController do
 
       it 'does not let a user delete a piece they did not create' do
         user1 = User.create(:username => "FalafelMonster", :email => "Challabackyoungin@aol.com", :password => "harruu")
-        piece1 = Piece.create(:name => "Egg Cup", :size => "N/A", :user_id => user1.id)
+        piece1 = Piece.create(:name => "Egg Cup", :size => "N/A", :quantity => "4", :user_id => user1.id)
         # piece1 = Piece.create(:name => "Egg Cup", :size => "N/A", :pattern_name => "Wallflower", :user_id => user1.id)
 
         user2 = User.create(:username => "EBLover", :email => "sarahg@optonline.net", :password => "stripes111")
-        piece2 = Piece.create(:name => "Jug", :size => "Quarter Pint", :user_id => user2.id)
+        piece2 = Piece.create(:name => "Jug", :size => "Quarter Pint", :quantity => "1", :user_id => user2.id)
         # piece2 = Piece.create(:name => "Jug", :size => "Quarter Pint", :pattern_name => "Utility", :user_id => user2.id)
 
         visit '/login'
@@ -429,7 +470,7 @@ describe ApplicationController do
 
     context "logged out" do
       it 'does not load let user delete a piece if not logged in' do
-        piece = Piece.create(:name => "Egg Cup", :size => "N/A", :user_id => user1.id)
+        piece = Piece.create(:name => "Egg Cup", :size => "N/A", :quantity => "4", :user_id => user1.id)
         # piece = Piece.create(:name => "Egg Cup", :size => "N/A", :pattern_name => "Wallflower", :user_id => user1.id)
         visit '/piece/1'
         expect(page.current_path).to eq("/login")
