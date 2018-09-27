@@ -192,19 +192,19 @@ describe ApplicationController do
 
       it 'lets user create a piece if they are logged in' do
         user = User.create(:username => "FalafelMonster", :email => "Challabackyoungin@aol.com", :password => "harruu")
-
+      
         visit '/login'
-
+      
         fill_in(:username, :with => "FalafelMoster")
         fill_in(:password, :with => "harruu")
         click_button 'Submit'
-
+      
         visit "/pieces/new"
         fill_in(:name, :with => "Jug")
         fill_in(:size, :with => "Quarter Pint")
         # fill_in(:pattern_name, :with => "Utility")
         click_button 'Create Piece'
-
+      
         user = User.find_by(:username => "FalafelMonster")
         piece = Piece.find_by(:name => "Jug", :size => "Quarter Pint")
         expect(piece).to be_instance_of(Piece)
