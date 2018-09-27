@@ -137,9 +137,6 @@ describe ApplicationController do
   describe 'user show page' do
     it 'shows all a single users pieces' do
       user = User.create(:username => "FalafelMonster", :email => "Challabackyoungin@aol.com", :password => "harruu")
-      # Think I need to flip object relationships and controllers - A user has many pieces, piece belongs to a pattern, and a pattern has many pieces
-      # don't think it should be "collections" (also because sounds awkward), but should start with pieces, and relationship moves down from there. Have
-      # to figure out where join table is.
       piece1 = Piece.create(name: "Jug", size: "1/4 Pint")
       piece2 = Piece.create(name: "Bowl", size: "French")
       # piece1 = Piece.create(name: "Jug", size: "1/4 Pint", pattern_name: "Utility")
@@ -216,7 +213,6 @@ describe ApplicationController do
         expect(page.status_code).to eq(200)
       end
 
-      #it 'does not let a user add collection from another user??'
       it 'does not let a user add piece from another user' do
         user = User.create(:username => "FalafelMonster", :email => "Challabackyoungin@aol.com", :password => "harruu")
         user2 = User.create(:username => "EBLover", :email => "sarahg@optonline.net", :password => "stripes111")

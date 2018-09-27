@@ -2,8 +2,14 @@ class PiecesController < ApplicationController
 
   get '/pieces' do
     @pieces = Piece.all
-    erb :'pieces/pieces'
+    @user = User.find_by(params[:id])
+    if logged_in?
+      erb :'/pieces/pieces'
+    else
+      redirect :'/login'
+    end
   end
+
 
   get '/pieces/new' do
     if logged_in?

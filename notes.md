@@ -1,6 +1,7 @@
 Users Table
-	Has many :patterns
-	Has many :pieces, through: :patterns
+	Has many :collections
+	Has many :pieces, through: :collections
+	Has many :patterns, through: :collections
 
 User_id
 Username
@@ -9,22 +10,23 @@ Password
 
 
 Patterns Table       
-Has many :pieces
-Belongs to :user?
+Has many :collections
+has many :pieces, through: :collections
 Pattern Name
 Color Collection/ Colorway/Theme
 Pattern ID
 
 
 Pieces Table
-Belongs to :pattern
-Belongs to :user?
+has many :collections
+has many :patterns, through: :collections
 Piece Name
 Shape
 Size
-
-Separate PatternPiece Table
 Quantity
+
+Collection Join Table
+user_id
 pattern_id
 piece_id
 
