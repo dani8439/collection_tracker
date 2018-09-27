@@ -4,7 +4,9 @@ describe "Pattern" do
   before do
     @pattern = Pattern.create(:name => "Love & Kisses", :theme => "Pinks")
 
-    small_jug = Piece.create(:name => "Jug", :size => "1.5 Pint", :quantity => "1", :pattern => @pattern)
+    small_jug = Piece.create(:name => "Jug", :size => "1.5 Pint", :quantity => "1")
+
+    small_jug.patterns << @pattern
   end
 
   it "can be initialized" do
@@ -13,6 +15,10 @@ describe "Pattern" do
 
   it "can have a name" do
     expect(@pattern.name).to eq("Love & Kisses")
+  end
+
+  it "can have a theme" do
+    expect(@pattern.theme).to eq("Pinks")
   end
 
   it "has many pieces" do

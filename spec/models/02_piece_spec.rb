@@ -5,6 +5,8 @@ describe "Piece" do
     @piece = Piece.create(:name => "Jug", :size => "1.5 Pint", :quantity => "1")
 
     @pattern = Pattern.create(:name => "Love & Kisses", :theme => "Pinks")
+
+    @pattern.pieces << @piece
   end
 
   it "can initialize a piece" do
@@ -25,9 +27,5 @@ describe "Piece" do
 
   it "can have many patterns" do
     expect(@piece.patterns.count).to eq(1)
-  end
-
-  it "has a pattern" do
-    expect(@piece.pattern).to eq(@pattern)
   end
 end
