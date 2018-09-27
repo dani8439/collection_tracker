@@ -17,14 +17,14 @@ describe ApplicationController do
       expect(last_response.status).to eq(200)
     end
 
-    it 'signup directs user to collection index' do
+    it 'signup directs user to pieces index' do
       params = {
         :username => "BaublesBaloo",
         :email => "Baubles@hotmail.com",
         :password => "Woof!"
       }
       post '/signup', params
-      expect(last_response.location).to include("/collections")
+      expect(last_response.location).to include("/pieces")
     end
 
     it 'does not let a user signup without a username' do
@@ -65,7 +65,7 @@ describe ApplicationController do
       }
       post '/signup', params
       get '/signup'
-      expect(last_response.location).to include('/collections')
+      expect(last_response.location).to include('/pieces')
     end
   end
 
@@ -75,7 +75,7 @@ describe ApplicationController do
       expect(last_response.status).to eq(200)
     end
 
-    it 'loads the collections index after login' do
+    it 'loads the pieces index after login' do
       user = User.create(:username => "FalafelMonster", :email => "Challabackyoungin@aol.com", :password => "harruu")
       params = {
         :username => "FalafelMonster",
@@ -96,7 +96,7 @@ describe ApplicationController do
       }
       post '/login', params
       get '/login'
-      expect(last_response.location).to include("/collections")
+      expect(last_response.location).to include("/pieces")
     end
   end
 
@@ -117,12 +117,12 @@ describe ApplicationController do
       expect(last_response.location).to include("/")
     end
 
-    it 'does not load /collections if user not logged in' do
-      get '/collections'
+    it 'does not load /pieces if user not logged in' do
+      get '/pieces'
       expect(last_response.location).to include("/login")
     end
 
-    it 'does load /collections if user is logged in' do
+    it 'does load /pieces if user is logged in' do
       user = User.create(:username => "FalafelMonster", :email => "Challabackyoungin@aol.com", :password => "harruu")
 
       visit '/login'
@@ -130,12 +130,12 @@ describe ApplicationController do
       fill_in(:username, :with => "FalafelMonster")
       fill_in(:password, :with => "harruu")
       click_button 'Submit'
-      expect(page.current_path).to eq('/collections')
+      expect(page.current_path).to eq('/pieces')
     end
   end
 
   describe 'user show page' do
-    it 'shows all a single users collections' do
+    it 'shows all a single users pieces' do
       user = User.create(:username => "FalafelMonster", :email => "Challabackyoungin@aol.com", :password => "harruu")
       # Think I need to flip object relationships and controllers - A user has many pieces, piece belongs to a pattern, and a pattern has many pieces
       # don't think it should be "collections" (also because sounds awkward), but should start with pieces, and relationship moves down from there. Have
@@ -153,7 +153,7 @@ describe ApplicationController do
 
   describe 'index action' do
     context 'logged in' do
-      it 'lets a user view the collections index if logged in' do
+      it 'lets a user view the pieces index if logged in' do
         user1 = User.create(:username => "FalafelMonster", :email => "Challabackyoungin@aol.com", :password => "harruu")
         piece1 = Piece.create(name: "Jug", size: "1/4 Pint")
 
@@ -165,15 +165,15 @@ describe ApplicationController do
         fill_in(:username, :with => "FalafelMonster")
         fill_in(:password, :with => "harruu")
         click_button 'Submit'
-        visit "/collections"
+        visit "/pieces"
         expect(page.body).to include(piece1.name)
         expect(page.body).to include(piece2.name)
       end
     end
 
     context 'logged out' do
-      it 'does not let a user view the collections index if not logged in' do
-        get '/collections'
+      it 'does not let a user view the pieces index if not logged in' do
+        get '/pieces'
         expect(last_response.location).to include("/login")
       end
     end

@@ -1,7 +1,7 @@
 class UsersController < ApplicationController
   get '/signup' do
     if logged_in?
-      redirect :'/collections'
+      redirect :'/pieces'
     else
       erb :'users/create_user'
     end
@@ -9,7 +9,7 @@ class UsersController < ApplicationController
 
   get '/login' do
     if logged_in?
-      redirect :'/collections'
+      redirect :'/pieces'
     else
       erb :'users/login'
     end
@@ -31,7 +31,7 @@ class UsersController < ApplicationController
     else
       @user = User.create(email: params[:email], username: params[:username], password: params[:password])
       session[:user_id] = @user.id
-      redirect :'/collections'
+      redirect :'/pieces'
     end
   end
 
@@ -40,7 +40,7 @@ class UsersController < ApplicationController
 
     if @user && @user.authenticate(params[:password])
       session[:user_id] = @user.id
-      redirect :'/collections'
+      redirect :'/pieces'
     else
       redirect :'/login'
     end
