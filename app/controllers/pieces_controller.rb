@@ -45,6 +45,7 @@ class PiecesController < ApplicationController
       @piece = Piece.create(name: params[:name], size: params[:size], quantity: params[:quantity])
       if !params[:pattern][:name].empty?
         @piece.patterns << Pattern.create(name: params[:name], theme: params[:theme])
+        @piece.user_id == current_user.id
       end
       @piece.save
       redirect :"pieces/#{@piece.id}"
@@ -64,6 +65,15 @@ class PiecesController < ApplicationController
   end
 
   delete '/pieces/:id/delete' do
+    @piece = Piece.find_by_id(params[:id])
+    if logged_in?
+      if @piece && @piece.user == current_user
+        @piece.delete
+      end
+      redirect :'/pieces'
+    else
+      redirect :'/login'
+    end
   end
 
 end

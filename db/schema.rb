@@ -20,14 +20,16 @@ ActiveRecord::Schema.define(version: 20180924200702) do
   end
 
   create_table "patterns", force: :cascade do |t|
-    t.string "name"
-    t.string "theme"
+    t.string  "name"
+    t.string  "theme"
+    t.integer "user_id"
   end
 
   create_table "pieces", force: :cascade do |t|
-    t.string "name"
-    t.string "size"
-    t.string "quantity"
+    t.string  "name"
+    t.string  "size"
+    t.string  "quantity"
+    t.integer "user_id"
   end
 
   create_table "users", force: :cascade do |t|

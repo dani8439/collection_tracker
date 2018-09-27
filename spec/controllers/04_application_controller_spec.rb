@@ -137,8 +137,8 @@ describe ApplicationController do
   describe 'user show page' do
     it 'shows all a single users pieces' do
       user = User.create(:username => "FalafelMonster", :email => "Challabackyoungin@aol.com", :password => "harruu")
-      piece1 = Piece.create(name: "Jug", size: "1/4 Pint", quantity: "1")
-      piece2 = Piece.create(name: "Bowl", size: "French", quantity: "1")
+      piece1 = Piece.create(name: "Jug", size: "1/4 Pint", quantity: "1", :user_id => @user.id)
+      piece2 = Piece.create(name: "Bowl", size: "French", quantity: "1", :user_id => @user.id)
 
       get "/users/#{user.id}"
 
