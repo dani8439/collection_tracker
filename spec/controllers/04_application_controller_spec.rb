@@ -293,7 +293,7 @@ describe ApplicationController do
     end
 
     context 'logged out' do
-      it 'goes not let a user view a piece' do
+      it 'does not let a user view a piece' do
         user = User.create(:username => "FalafelMonster", :email => "Challabackyoungin@aol.com", :password => "harruu")
         piece = Piece.create(:name => "Egg Cup", :size => "N/A", :pattern_name => "Wallflower")
         get "/pieces/#{piece.id}"
