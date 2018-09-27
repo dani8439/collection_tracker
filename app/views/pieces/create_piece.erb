@@ -7,13 +7,15 @@
 
   <h2>Patterns</h2>
   <% Pattern.all.each do |pattern| %>
-    <input type="checkbox" name="piece[pattern_ids][]" id="pattern_<%= pattern.id %>" value="<% pattern.id %>"><%=pattern.name%></input><br>
+    <input type="checkbox" name="piece[pattern_ids][]" id="pattern_<%= pattern.id %>" value="<%= pattern.id%>"><%= pattern.name %></input>
   <% end %>
+
   <br></br>
+
   <h2>Create New Pattern:</h2>
-  <label>Name: </label>
+  <label for="new_pattern">Name: </label>
   <input type="text" name="pattern[name]" id="new_pattern">
-  <label>Theme: </label>
+  <label for="new_theme">Theme: </label>
   <input type="text" name="pattern[theme]" id="new_theme">
   <br></br>
   <input type="submit" value="Create Piece">

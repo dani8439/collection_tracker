@@ -207,7 +207,6 @@ describe ApplicationController do
 
         user = User.find_by(:username => "FalafelMonster")
         piece = Piece.find_by(:name => "Jug", :size => "Quarter Pint")
-        # piece = Piece.find_by(:name => "Jug", :size => "Quarter Pint", :pattern_name => "Utility")
         expect(piece).to be_instance_of(Piece)
         expect(piece.user_id).to eq(user.id)
         expect(page.status_code).to eq(200)
