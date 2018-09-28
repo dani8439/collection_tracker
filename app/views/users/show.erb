@@ -1,27 +1,18 @@
-
 <h1>Welcome <%= @user.username %></h1>
 
-<h2>Here is your collection</h2>
+<h2>Here is your collection: </h2>
 
 <% @collection.patterns.each do |pattern| %>
 <ol>
-  <p><a href="/patterns/<%= pattern.id %>"><%= pattern.name %></a></p>
+  <li><a href="/patterns/<%= pattern.id %>"><%= pattern.name %> <%= piece.theme %></li>
 </ol>
-<% end %>
-<br>
+<% end >
 
-<h2>Patterns: </h2>
-<% Pattern.all.each do |pattern| %>
-  <ul>
-    <li><%= pattern.name %>: <%= pattern.theme %></li>
-  </ul>
-<% end %>
-
-<h2>Pieces: </h2>
-<% Piece.all.each do |piece| %>
-  <ul>
-    <li><%= piece.name %>: <%= piece.size %></li>
-  </ul>
+<br></br>
+<% @collection.pieces.each do |piece| %>
+<ol>
+  <li><a href="/pieces/<%= piece.id %>"><%= piece.quantity %> <%= piece.name %> <%= piece.size%> </li>
+</ol>
 <% end %>
 
 <br></br>

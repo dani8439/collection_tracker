@@ -1,3 +1,6 @@
+user1 = User.create(:username => "BaublesBaloo", :email => "Baubles@hotmail.com", :password => "Woof!")
+user2 = User.create(:username => "FalafelMonster", :email => "Challabackyoungin@aol.com", :password => "harruu")
+
 pattern1 = Pattern.create(name: "Toast & Marmalade", theme: "Toast & Marmalade"),
 pattern2 = Pattern.create(name: "Cambridge Blue Toast", theme: "Toast & Marmalade"),
 pattern3 = Pattern.create(name: "Blue Skies", theme: "Toast & Marmalade"),

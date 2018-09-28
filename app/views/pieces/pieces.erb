@@ -1,8 +1,8 @@
 <h1>Welcome <%=@user.username %> Here Are Your Pieces:</h1>
 
-<% Piece.all.each do |piece| %>
+<% @pieces.each do |piece| %>
   <ul>
-    <li>Name: <%= piece.name %> Size: <%= piece.size %> Total: <%= piece.quantity %> </li>
+    <li>Name: <%= piece.name %>, Size: <%= piece.size %>, Total: <%= piece.quantity %> </li>
   </ul>
 <% end %>
 

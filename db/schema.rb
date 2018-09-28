@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180924200702) do
+ActiveRecord::Schema.define(version: 20180928215703) do
 
   create_table "collections", force: :cascade do |t|
     t.integer "pattern_id"
