@@ -22,7 +22,7 @@ class PiecesController < ApplicationController
   get '/pieces/:id' do
     if logged_in?
       @piece = Piece.find_by_id(params[:id])
-      erb :'pieces/show_pieces'
+      erb :'pieces/show_piece'
     else
       redirect :'/login'
     end

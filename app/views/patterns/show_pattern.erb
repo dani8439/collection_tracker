@@ -1,6 +1,10 @@
-<h2>Pattern Name: <%= @pattern.name %></h2>
-<br>
-<h2>Theme: <%= @pattern.theme %></h2>
+<h1>Here Are The Patterns in your Collection:</h1>
+<% Pattern.all.each do |pattern| %>
+  <ul>
+    <li>Name: <%= pattern.name %></li>
+    <li>Theme: <%= pattern.theme %></li>
+  </ul>
+<% end %>
 
 <a href="/patterns/create_pattern">Add Another Pattern to your Collection</a><br>
 <a href="/pieces/create_piece">Add A Piece to your Collection</a><br>
