@@ -3,5 +3,21 @@
 <form action="/patterns" method="POST">
   <label for="pattern_name">Name: <input type="text" name="pattern[name]" id="pattern_name"></label>
   <label for="pattern_theme">Theme: <input type="text" name="pattern[theme]" id="pattern_theme"></label>
+
+  <h2>Available Pieces</h2>
+  <% Piece.all.each do |piece| %>
+    <input type="checkbox" name="piece[name]" id="<%= piece.id %>" value="<%= piece.id%>"><%= piece.name %></input>
+  <% end %>
+
+  <br></br>
+  <h2>Create New Piece:</h2>
+  <label for="new_piece">Name: </label>
+  <input type="text" name="piece[name]" id="new_piece">
+  <label for="new_size">Theme: </label>
+  <input type="text" name="piece[size]" id="new_size">
+  <label for="new_quantity">Quantity: </label>
+  <input type="text" name="piece[quantity]" id="new_quantity">
+  <br></br>
   <input type="submit" value="Create Pattern">
+
 </form>

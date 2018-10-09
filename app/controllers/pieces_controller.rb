@@ -47,6 +47,7 @@ class PiecesController < ApplicationController
         @piece.patterns << Pattern.create(name: params[:name], theme: params[:theme])
       end
       @piece.save
+      flash[:message] = "Successfully created piece."
       redirect :"pieces/#{@piece.id}"
     end
   end

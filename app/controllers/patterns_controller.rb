@@ -23,14 +23,28 @@ class PatternsController < ApplicationController
   end
 
   post '/patterns' do
-    @pattern = Pattern.create(name: params[:name], theme: params[:theme])
-    if !params[:piece][:name].empty?
-      @pattern.pieces << Piece.create(name: params[:piece][:name], size: params[:piece][:size], quantity: params[:piece][:quantity])
+    if params[:name] == "" || params[:theme] == ""
+      redirect :'/patterns/new'
+    else
+      @pattern = Pattern.create(name: params[:name], theme: params[:theme])
+      if !params[:piece][:name].empty?
+        @pattern.pieces << Piece.create(name: params[:piece][:name], size: params[:piece][:size], quantity: params[:piece][:quantity])
+      end
+      @pattern.save
+      flash[:message] = "Successfully created pattern."
+      redirect :"/patterns/#{@pattern.id}"
     end
-    @pattern.save
-    redirect :"/patterns/#{@pattern.id}"
-
   end
+
+  # post '/patterns' do
+  #   @pattern = Pattern.create(name: params[:name], theme: params[:theme])
+  #   if !params[:piece][:name].empty?
+  #     @pattern.pieces << Piece.create(name: params[:piece][:name], size: params[:piece][:size], quantity: params[:piece][:quantity])
+  #   end
+  #   @pattern.save
+  #   flash[:message] = "Successfully created pattern."
+  #   redirect :"/patterns/#{@pattern.id}"
+  # end
 
   get '/patterns/:id/edit' do
     if logged_in?
