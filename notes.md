@@ -1,3 +1,25 @@
+collection = {}
+collection[:patterns] = {}
+collection[:patterns][:name] = "Love & Kisses"
+collection[:patterns][:pieces] = []
+collection[:patterns][:pieces][0] = { :name => "Jug", :size => "Quarter Pint" }
+collection[:patterns][:pieces][1] = { :name => "Mug", :size => "Half Pint" }
+
+params[:patterns][:pieces] ??
+
+[
+	0 => {
+		"name" => "Teapot",
+		"size" => "2 Cup",
+		"quantity" => "1"
+	},
+	1 => {
+		"name" => "Plate",
+		"size" => "6.5 Inch",
+		"quantity" => "10"
+	}
+]
+
 Users Table
 	Has many :collections
 	Has many :pieces, through: :collections

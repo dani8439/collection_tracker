@@ -134,18 +134,18 @@ describe ApplicationController do
     end
   end
 
-  describe 'user show page' do
-    it 'shows all a single users pieces' do
-      user = User.create(:username => "FalafelMonster", :email => "Challabackyoungin@aol.com", :password => "harruu")
-      piece1 = Piece.create(name: "Jug", size: "1/4 Pint", quantity: "1")
-      piece2 = Piece.create(name: "Bowl", size: "French", quantity: "1")
-
-      get "/users/#{user.id}"
-
-      expect(last_response.body).to include("1/4 Pint")
-      expect(last_response.body).to include("Bowl")
-    end
-  end
+  # describe 'user show page' do
+  #   it 'shows all a single users pieces' do
+  #     user = User.create(:username => "FalafelMonster", :email => "Challabackyoungin@aol.com", :password => "harruu")
+  #     piece1 = Piece.create(name: "Jug", size: "1/4 Pint", quantity: "1")
+  #     piece2 = Piece.create(name: "Bowl", size: "French", quantity: "1")
+  #
+  #     get "/users/#{user.id}"
+  #
+  #     expect(last_response.body).to include("1/4 Pint")
+  #     expect(last_response.body).to include("Bowl")
+  #   end
+  # end
 
   describe 'index action' do
     context 'logged in' do
