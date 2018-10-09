@@ -6,7 +6,7 @@
 
   <h2>Available Pieces</h2>
   <% Piece.all.each do |piece| %>
-    <input type="checkbox" name="piece[name]" id="<%= piece.id %>" value="<%= piece.id%>"><%= piece.name %></input>
+    <input type="checkbox" name="piece[name]" id="<%= piece.id %>" value="<%= piece.id%>"><%= piece.name %></input><br>
   <% end %>
 
   <br></br>
