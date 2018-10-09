@@ -14,6 +14,7 @@ gem 'thin'
 gem 'tux'
 gem 'require_all'
 gem 'bcrypt'
+gem 'rack-flash3'
 
 group :test do
   gem 'rspec'

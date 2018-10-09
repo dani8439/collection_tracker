@@ -1,3 +1,7 @@
+<% if flash.has?(:message) %>
+  <%= flash[:message] %>
+<% end %>
+
 <h1>Here Are The Patterns in your Collection:</h1>
 <% Pattern.all.each do |pattern| %>
   <ul>
