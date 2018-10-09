@@ -17,14 +17,14 @@ describe ApplicationController do
       expect(last_response.status).to eq(200)
     end
 
-    it 'signup directs user to pieces index' do
+    it 'signup directs user to collections index' do
       params = {
         :username => "BaublesBaloo",
         :email => "Baubles@hotmail.com",
         :password => "Woof!"
       }
       post '/signup', params
-      expect(last_response.location).to include("/pieces")
+      expect(last_response.location).to include("/collections")
     end
 
     it 'does not let a user signup without a username' do
@@ -65,7 +65,7 @@ describe ApplicationController do
       }
       post '/signup', params
       get '/signup'
-      expect(last_response.location).to include('/pieces')
+      expect(last_response.location).to include('/collections')
     end
   end
 
@@ -96,7 +96,7 @@ describe ApplicationController do
       }
       post '/login', params
       get '/login'
-      expect(last_response.location).to include("/pieces")
+      expect(last_response.location).to include("/collections")
     end
   end
 
@@ -117,12 +117,12 @@ describe ApplicationController do
       expect(last_response.location).to include("/")
     end
 
-    it 'does not load /pieces if user not logged in' do
-      get '/pieces'
+    it 'does not load /collections if user not logged in' do
+      get '/collections'
       expect(last_response.location).to include("/login")
     end
 
-    it 'does load /pieces if user is logged in' do
+    it 'does load /collections if user is logged in' do
       user = User.create(:username => "FalafelMonster", :email => "Challabackyoungin@aol.com", :password => "harruu")
 
       visit '/login'
@@ -130,15 +130,16 @@ describe ApplicationController do
       fill_in(:username, :with => "FalafelMonster")
       fill_in(:password, :with => "harruu")
       click_button 'Submit'
-      expect(page.current_path).to eq('/pieces')
+      expect(page.current_path).to eq('/collections')
     end
   end
 
   # describe 'user show page' do
-  #   it 'shows all a single users pieces' do
+  #   it 'shows all a single users collection' do
   #     user = User.create(:username => "FalafelMonster", :email => "Challabackyoungin@aol.com", :password => "harruu")
-  #     piece1 = Piece.create(name: "Jug", size: "1/4 Pint", quantity: "1")
-  #     piece2 = Piece.create(name: "Bowl", size: "French", quantity: "1")
+  #     # piece1 = Piece.create(name: "Jug", size: "1/4 Pint", quantity: "1")
+  #     # piece2 = Piece.create(name: "Bowl", size: "French", quantity: "1")
+  #     collection1 = Collection.create()
   #
   #     get "/users/#{user.id}"
   #

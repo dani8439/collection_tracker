@@ -13,7 +13,7 @@ class PiecesController < ApplicationController
 
   get '/pieces/new' do
     if logged_in?
-      erb :'pieces/create_piece'
+      erb :'pieces/new'
     else
       redirect :'/login'
     end

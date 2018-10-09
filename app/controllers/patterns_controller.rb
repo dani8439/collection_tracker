@@ -7,7 +7,7 @@ class PatternsController < ApplicationController
 
   get '/patterns/new' do
     if logged_in?
-      erb :'patterns/create_pattern'
+      erb :'patterns/new'
     else
       redirect :'/login'
     end
