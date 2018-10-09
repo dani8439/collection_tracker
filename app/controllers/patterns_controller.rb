@@ -28,6 +28,7 @@ class PatternsController < ApplicationController
     else
       @pattern = Pattern.create(name: params[:name], theme: params[:theme])
       if !params[:piece][:name].empty?
+        # @piece1.patterns << pattern
         @pattern.pieces << Piece.create(name: params[:piece][:name], size: params[:piece][:size], quantity: params[:piece][:quantity])
       end
       @pattern.save
