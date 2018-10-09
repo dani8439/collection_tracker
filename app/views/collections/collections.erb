@@ -1,13 +1,6 @@
-<h1>Welcome <%= @user.username%></h1>
+<h1>Welcome <%= current_user.username%></h1>
 
 <h2>Here is your collection</h2>
-
-<% Collection.all.each do |collection| %>
-<ol>
-  <li></li>
-</ol>
-<% end %>
-<br>
 
 <h2>Patterns: </h2>
 <% Pattern.all.each do |pattern| %>
@@ -19,7 +12,7 @@
 <h2>Pieces: </h2>
 <% Piece.all.each do |piece| %>
   <ul>
-    <li><%piece.quantity %> <%= piece.name %>: <%= piece.size %></li>
+    <li><%= piece.quantity %> <%= piece.name %>: <%= piece.size %></li>
   </ul>
 <% end %>
 
