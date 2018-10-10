@@ -38,16 +38,28 @@ class PiecesController < ApplicationController
     end
   end
 
+  # post '/pieces' do
+  #   if params[:name] == "" || params[:size] == "" || params[:quantity] == ""
+  #     redirect :'/pieces/new'
+  #   else
+  #     @piece = Piece.create(name: params[:name], size: params[:size], quantity: params[:quantity])
+  #     if !params[:pattern][:name].empty?
+  #       @piece.patterns << Pattern.create(name: params[:name], theme: params[:theme])
+  #     end
+  #     @piece.save
+  #     flash[:message] = "Successfully created piece."
+  #     redirect :"pieces/#{@piece.id}"
+  #   end
+  # end
+
   post '/pieces' do
     if params[:name] == "" || params[:size] == "" || params[:quantity] == ""
       redirect :'/pieces/new'
     else
       @piece = Piece.create(name: params[:name], size: params[:size], quantity: params[:quantity])
-      if !params[:pattern][:name].empty?
-        @piece.patterns << Pattern.create(name: params[:name], theme: params[:theme])
-      end
+      @piece.pattern = Pattern.find_or_create_by(name: params[:pattern_name])
+      @piece.pattern_ids = params[:patterns]
       @piece.save
-      flash[:message] = "Successfully created piece."
       redirect :"pieces/#{@piece.id}"
     end
   end

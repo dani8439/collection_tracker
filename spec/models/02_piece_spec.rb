@@ -7,6 +7,8 @@ describe "Piece" do
     @pattern = Pattern.create(:name => "Love & Kisses", :theme => "Pinks")
 
     @pattern.pieces << @piece
+
+    @piece.pattern_ids = @pattern.id
   end
 
   it "can initialize a piece" do

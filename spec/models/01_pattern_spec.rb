@@ -7,6 +7,9 @@ describe "Pattern" do
     small_jug = Piece.create(:name => "Jug", :size => "1.5 Pint", :quantity => "1")
 
     small_jug.patterns << @pattern
+
+    small_jug.pattern_ids = @pattern.id
+    # ??
   end
 
   it "can be initialized" do
