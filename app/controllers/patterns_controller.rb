@@ -71,7 +71,7 @@ class PatternsController < ApplicationController
   delete '/patterns/:id/delete' do
     @pattern = Pattern.find_by_id(params[:id])
     if logged_in?
-      if @pattern && @pattern.user == current_user
+      if @pattern && @pattern.user_id == current_user
         @pattern.delete
       end
       redirect :'/patterns'

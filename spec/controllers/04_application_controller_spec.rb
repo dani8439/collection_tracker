@@ -171,7 +171,7 @@ describe ApplicationController do
     context 'logged out' do
       it 'does not let a user view the pieces index if not logged in' do
         get '/pieces'
-        expect(last_response.location).to include("/login")
+        expect(last_response.location).to include("/")
       end
     end
   end

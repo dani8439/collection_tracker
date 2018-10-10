@@ -6,7 +6,7 @@ class PiecesController < ApplicationController
     if logged_in?
       erb :'/pieces/pieces'
     else
-      redirect :'/login'
+      redirect :'/'
     end
   end
 
@@ -38,29 +38,16 @@ class PiecesController < ApplicationController
     end
   end
 
-  # post '/pieces' do
-  #   if params[:name] == "" || params[:size] == "" || params[:quantity] == ""
-  #     redirect :'/pieces/new'
-  #   else
-  #     @piece = Piece.create(name: params[:name], size: params[:size], quantity: params[:quantity])
-  #     if !params[:pattern][:name].empty?
-  #       @piece.patterns << Pattern.create(name: params[:name], theme: params[:theme])
-  #     end
-  #     @piece.save
-  #     flash[:message] = "Successfully created piece."
-  #     redirect :"pieces/#{@piece.id}"
-  #   end
-  # end
-
   post '/pieces' do
     if params[:name] == "" || params[:size] == "" || params[:quantity] == ""
-      flash[:message] = "You need to fill in all fields to create a piece."
       redirect :'/pieces/new'
     else
       @piece = Piece.create(name: params[:name], size: params[:size], quantity: params[:quantity])
-      @piece.patterns = Pattern.find_or_create_by(name: params[:pattern_name])
-      @piece.pattern_ids = params[:patterns]
+      if !params[:pattern][:name].empty?
+        @piece.patterns << Pattern.create(name: params[:name], theme: params[:theme])
+      end
       @piece.save
+      flash[:message] = "Successfully created piece."
       redirect :"pieces/#{@piece.id}"
     end
   end
@@ -80,7 +67,7 @@ class PiecesController < ApplicationController
   delete '/pieces/:id/delete' do
     @piece = Piece.find_by_id(params[:id])
     if logged_in?
-      if @piece && @piece.user == current_user
+      if @piece && @piece.user_id == current_user
         @piece.delete
       end
       redirect :'/pieces'

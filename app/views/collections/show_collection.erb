@@ -6,13 +6,6 @@
 
 <h2>Here is your collection</h2>
 
-<% Collection.all.each do |collection| %>
-<ol>
-  <li><%= collection.pattern_id %> <%= collection.piece_id%></li>
-</ol>
-<% end %>
-<br>
-
 <h2>Patterns: </h2>
 <% Pattern.all.each do |pattern| %>
   <ul>

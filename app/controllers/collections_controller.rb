@@ -20,16 +20,4 @@ class CollectionsController < ApplicationController
     end
   end
 
-
-  # post '/collections' do
-  #   if !params[:collection][:user_id].empty?
-  #     @collection = Collection.create(params[:collection])
-  #     @collection.user_id = @user.id
-  #     @collection.save
-  #     erb :'/collections/show_collection'
-  #   else
-  #     redirect :'/collections/new'
-  #   end
-  # end
-
 end
