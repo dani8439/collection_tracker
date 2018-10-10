@@ -2,12 +2,14 @@
   <%= flash[:message] %>
 <% end %>
 
-<h2>Piece Name: <%= @piece.name %></h2>
-<br>
-<h2>Size: <%= @piece.size %></h2>
-<br>
-<h2>Quantity: <%= @piece.quantity %></h2>
-<br>
+<h1>Here Are The Pieces in your Collection:</h1>
+<% Piece.all.each do |piece| %>
+  <ul>
+    <li>Name: <%= piece.name %></li>
+    <li>Size: <%= piece.size %></li>
+    <li>Quantity: <%= piece.quantity %></li>
+  </ul>
+<% end %>
 
 
 <a href="/pieces/<%= @piece.id %>/edit">Edit Piece </a>
@@ -17,8 +19,10 @@
   <input id="hidden" type="hidden" name="_method" value="delete">
   <input type="submit" id="submit" value="Delete Piece">
 </form>
+<br><br>
 
 <a href="/patterns/patterns">See Your Patterns</a></br>
+<a href="/pieces/pieces">See Your Pieces</a></br>
 <a href="/pieces/create_piece">Add A Piece to your Collection</a><br>
 <a href="/patterns/create_pattern">Add A Pattern to your Collection</a><br>
 <a href="/collections/show_collection">See Your Collection</a><br>
