@@ -2,14 +2,12 @@
   <%= flash[:message] %>
 <% end %>
 
-<h1>Here Are The Pieces in your Collection:</h1>
-<% Piece.all.each do |piece| %>
-  <ul>
-    <li>Name: <%= piece.name %></li>
-    <li>Size: <%= piece.size %></li>
-    <li>Quantity: <%= piece.quantity %></li>
-  </ul>
-<% end %>
+<h2>Piece Name: <%= @piece.name %></h2>
+<br>
+<h2>Size: <%= @piece.size %></h2>
+<br>
+<h2>Quantity: <%= @piece.quantity %></h2>
+<br>
 
 
 <a href="/pieces/<%= @piece.id %>/edit">Edit Piece </a>

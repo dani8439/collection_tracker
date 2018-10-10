@@ -25,20 +25,5 @@ describe "Pattern" do
     expect(@pattern.pieces.count).to eq(1)
   end
 
-  # it "allows you to view form to create a new pattern" do
-  #   visit '/patterns/new'
-  #   expect(page.body).to include('<form')
-  #   expect(page.body).to include('pattern[theme]')
-  #   expect(page.body).to include('pattern[name]')
-  # end
-  #
-  # it "allows you to list all patterns" do
-  #   visit '/patterns'
-  #
-  #   expect(page.status_code).to eq(200)
-  #
-  #   expect(page.body).to include("Starry Skies")
-  #   expect(page.body).to include("Utility")
-  # end
 
 end

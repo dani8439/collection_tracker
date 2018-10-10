@@ -1,4 +1,4 @@
-<h2>Edit Piece</h2>
+<h2>Edit <%= @piece.name %></h2>
 
 <form action="/pieces/<%= @piece.id %>" method="POST">
   <input type="hidden" name="_method" value="PATCH">

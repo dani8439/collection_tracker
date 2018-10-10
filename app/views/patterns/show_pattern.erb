@@ -2,13 +2,9 @@
   <%= flash[:message] %>
 <% end %>
 
-<h1>Here Are The Patterns in your Collection:</h1>
-<% Pattern.all.each do |pattern| %>
-  <ul>
-    <li>Name: <%= pattern.name %></li>
-    <li>Theme: <%= pattern.theme %></li>
-  </ul>
-<% end %>
+<h2>Pattern Name: <%= @pattern.name %></h2>
+<br>
+<h2>Theme: <%= @pattern.theme %></h2>
 
 <br><br>
 <a href="/patterns/patterns">See Your Patterns</a></br>
