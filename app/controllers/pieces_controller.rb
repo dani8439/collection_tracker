@@ -54,10 +54,11 @@ class PiecesController < ApplicationController
 
   post '/pieces' do
     if params[:name] == "" || params[:size] == "" || params[:quantity] == ""
+      flash[:message] = "You need to fill in all fields to create a piece."
       redirect :'/pieces/new'
     else
       @piece = Piece.create(name: params[:name], size: params[:size], quantity: params[:quantity])
-      @piece.pattern = Pattern.find_or_create_by(name: params[:pattern_name])
+      @piece.patterns = Pattern.find_or_create_by(name: params[:pattern_name])
       @piece.pattern_ids = params[:patterns]
       @piece.save
       redirect :"pieces/#{@piece.id}"

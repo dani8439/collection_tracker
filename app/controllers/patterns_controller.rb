@@ -24,6 +24,7 @@ class PatternsController < ApplicationController
 
   post '/patterns' do
     if params[:name] == "" || params[:theme] == ""
+      flash[:message] = "You need to fill in all fields to create a Pattern."
       redirect :'/patterns/new'
     else
       @pattern = Pattern.create(name: params[:name], theme: params[:theme])
