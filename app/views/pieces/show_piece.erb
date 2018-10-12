@@ -6,18 +6,16 @@
 <br>
 <h2>Size: <%= @piece.size %></h2>
 <br>
-<h2>Quantity: <%= @piece.quantity %></h2>
-<br>
 
 
 <a href="/pieces/<%= @piece.id %>/edit">Edit Piece </a>
 <br></br>
 
-<form action="/pieces/<%= @piece.id %>/delete" method="POST">
+<form action="/pieces/<%=@piece.id%>/delete" method="POST">
   <input id="hidden" type="hidden" name="_method" value="delete">
   <input type="submit" id="submit" value="Delete Piece">
 </form>
-<br><br>
+
 
 <a href="/patterns/patterns">See Your Patterns</a></br>
 <a href="/pieces/pieces">See Your Pieces</a></br>

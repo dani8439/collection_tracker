@@ -6,17 +6,16 @@
 
 <h2>Here is your collection: </h2>
 
-<% @collection.patterns.each do |pattern| %>
-<ol>
-  <li><a href="/patterns/<%= pattern.id %>"><%= pattern.name %> <%= piece.theme %></li>
-</ol>
-<% end >
+<% @user.pieces.each do |piece| %>
+<ul>
+  <li><a href="/pieces/<%= piece.id %>"><%= piece.size %> <%= piece.name %></li>
+</ul>
+<% end %>
 
-<br></br>
-<% @collection.pieces.each do |piece| %>
-<ol>
-  <li><a href="/pieces/<%= piece.id %>"><%= piece.quantity %> <%= piece.name %> <%= piece.size%> </li>
-</ol>
+<% @user.patterns.each do |pattern| %>
+<ul>
+  <li><a href="/patterns/<%= pattern.id %>"><%= pattern.name %> <%= pattern.quantity %></li>
+</ul>
 <% end %>
 
 <br></br>

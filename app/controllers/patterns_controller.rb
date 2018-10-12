@@ -23,14 +23,14 @@ class PatternsController < ApplicationController
   end
 
   post '/patterns' do
-    if params[:name] == "" || params[:theme] == ""
+    if params[:name] == "" || params[:quantity] == ""
       flash[:message] = "You need to fill in all fields to create a Pattern."
       redirect :'/patterns/new'
     else
-      @pattern = Pattern.create(name: params[:name], theme: params[:theme])
+      @pattern = Pattern.create(name: params[:name], quantity: params[:quantity])
       if !params[:piece][:name].empty?
         # @piece1.patterns << pattern
-        @pattern.pieces << Piece.create(name: params[:piece][:name], size: params[:piece][:size], quantity: params[:piece][:quantity])
+        @pattern.pieces << Piece.create(name: params[:piece][:name], size: params[:piece][:size])
       end
       @pattern.save
       flash[:message] = "Successfully created pattern."
@@ -61,7 +61,7 @@ class PatternsController < ApplicationController
     @pattern = Pattern.find(params[:id])
     @pattern.update(params[:pattern])
     if !params[:piece][:name].empty?
-      @pattern.pieces = Piece.create(name: params[:piece][:name], size: params[:piece][:size], quantity: params[:piece][:quantity])
+      @pattern.pieces = Piece.create(name: params[:piece][:name], size: params[:piece][:size])
     end
     @pattern.save
 
