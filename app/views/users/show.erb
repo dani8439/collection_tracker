@@ -6,6 +6,13 @@
 
 <h2>Here is your collection: </h2>
 
+<!-- <h2>Pieces: </h2>
+<% Piece.all.each do |piece| %>
+  <ul>
+    <li><%= piece.quantity%> <%= piece.size %> <%= piece.name %>  </li>
+  </ul>
+<% end %> -->
+
 <% @user.pieces.each do |piece| %>
 <ul>
   <li><a href="/pieces/<%= piece.id %>"><%= piece.size %> <%= piece.name %></li>

@@ -6,11 +6,11 @@
 
 <h2>Here is your collection</h2>
 
-<h2>Patterns: </h2>
-<% Pattern.all.each do |pattern| %>
-  <ul>
-    <li><%= pattern.name %>: <%= pattern.theme %></li>
-  </ul>
+<h2>Pieces: </h2>
+<% @collection.pieces.each do |piece| %>
+<ul>
+  <li><%= piece.size %> <%= piece.name %></li>
+</ul>
 <% end %>
 
 <h2>Pieces: </h2>

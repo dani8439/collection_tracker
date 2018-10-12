@@ -2,6 +2,19 @@
 
 <h2>Here is your collection</h2>
 
+<h2>Patterns: </h2>
+<% Pattern.all.each do |pattern| %>
+  <ul>
+    <li><%= pattern.name %>: <%= pattern.theme %></li>
+  </ul>
+<% end %>
+
+<h2>Pieces: </h2>
+<% Piece.all.each do |piece| %>
+  <ul>
+    <li><%= piece.quantity%> <%= piece.size %> <%= piece.name %>  </li>
+  </ul>
+<% end %>
 
 <br></br>
 <a href="/pieces/new">Add a new piece </a><br>

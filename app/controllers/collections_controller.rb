@@ -20,4 +20,18 @@ class CollectionsController < ApplicationController
     end
   end
 
+  post '/collections' do
+    if logged_in?
+      @collection = Collection.find_by_id(params[:id])
+      @collection.patterns = Pattern.all
+      @collection.pieces = Piece.all
+      @collection.user_id = current_user.id
+      @collection.save
+      erb :'/collections/show_collection'
+    else
+      redirect :'/login'
+    end
+
+  end
+
 end
