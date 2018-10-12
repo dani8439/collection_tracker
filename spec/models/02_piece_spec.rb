@@ -2,9 +2,9 @@ require 'spec_helper'
 
 describe "Piece" do
   before do
-    @piece = Piece.create(:name => "Jug", :size => "1.5 Pint", :quantity => "1")
+    @piece = Piece.create(:name => "Jug", :size => "1.5 Pint")
 
-    @pattern = Pattern.create(:name => "Love & Kisses", :theme => "Pinks")
+    @pattern = Pattern.create(:name => "Love & Kisses", :quantity => "20")
 
     @pattern.pieces << @piece
 
@@ -21,10 +21,6 @@ describe "Piece" do
 
   it "can have a size" do
     expect(@piece.size).to eq("1.5 Pint")
-  end
-
-  it "can have a quantity" do
-    expect(@piece.quantity).to eq("1")
   end
 
   it "can have many patterns" do
