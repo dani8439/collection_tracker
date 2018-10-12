@@ -6,7 +6,10 @@
 <br>
 <h2>Size: <%= @piece.size %></h2>
 <br>
-
+<h2>Patterns: </h2>
+<% @piece.patterns.each do |pattern| %>
+  <p><a href="/patterns/<%= pattern.id %>"><%= pattern.name %></a></p>
+<% end %>
 
 <a href="/pieces/<%= @piece.id %>/edit">Edit Piece </a>
 <br></br>
