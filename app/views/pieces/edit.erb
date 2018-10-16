@@ -7,7 +7,7 @@
   <br></br>
   <h2>Patterns: </h2>
   <% Pattern.all.each do |pattern| %>
-    <input type="checkbox" name="piece[pattern_ids][]" id="piece_<%= piece.id %>" value="<%= pattern.id%>" <%='checked' if @piece.patterns.include?(pattern)%>><%= pattern.name %></input>
+    <input type="checkbox" name="piece[pattern_ids][]" id="<%= @piece.id %>" value="<%= pattern.id%>" <%='checked' if @piece.patterns.include?(pattern)%>><%= pattern.name %></input>
   <% end %>
   <br></br>
   <h2>Add New Pattern: </h2>
