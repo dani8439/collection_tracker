@@ -2,7 +2,7 @@
 
 <form action="/patterns" method="POST">
   <label for="pattern_name">Name: <input type="text" name="pattern[name]" id="pattern_name"></label>
-  <label for="pattern_theme">Theme: <input type="text" name="pattern[theme]" id="pattern_theme"></label>
+  <label for="pattern_quantity">Quantity: <input type="text" name="pattern[quantity]" id="pattern_quantity"></label>
 
   <h2>Available Pieces</h2>
   <% Piece.all.each do |piece| %>
